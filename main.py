@@ -1,12 +1,7 @@
-import base64
 import argparse
 from agents.vision_agent import get_vision_agent
 from agents.terraform_agent import get_terraform_agent
 from core.logger import logger
-
-def encode_image(image_path):
-    with open(image_path, "rb") as image_file:
-        return base64.b64encode(image_file.read()).decode('utf-8')
 
 def main(image_path):
     logger.info(f"Starting Whiteboard-to-Infra pipeline for: {image_path}")
@@ -17,21 +12,27 @@ def main(image_path):
 
     # 2. Vision Phase
     logger.info("Phase 1: Analyzing whiteboard image...")
-    base64_image = encode_image(image_path)
     
-    # Constructing the multimodal payload for Claude 3
+    # Strands takes raw bytes directly, no base64 encoding needed!
+    with open(image_path, "rb") as image_file:
+        image_bytes = image_file.read()
+        
+    # Determine the format from the file extension
+    ext = image_path.split('.')[-1].lower()
+    img_format = "jpeg" if ext in ["jpg", "jpeg"] else ext
+    
+    # Constructing the multimodal payload using Strands ContentBlock format
     vision_prompt = [
         {
-            "type": "image",
-            "source": {
-                "type": "base64",
-                "media_type": "image/jpeg",
-                "data": base64_image
-            }
+            "text": "Analyze this architecture diagram and output the JSON topology."
         },
         {
-            "type": "text",
-            "text": "Analyze this architecture diagram and output the JSON topology."
+            "image": {
+                "format": img_format,
+                "source": {
+                    "bytes": image_bytes
+                }
+            }
         }
     ]
     

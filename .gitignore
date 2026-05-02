@@ -1,0 +1,20 @@
+# Python execution artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environments
+.venv/
+venv/
+
+# Environment variables & Secrets (Keep your AWS/Bedrock configs safe)
+.env
+
+# Auto-generated Agent Outputs (Ignore the test files the agent creates)
+output_infra/
+
+# OS generated files
+.DS_Store
+
+.env
+output_infra/
