@@ -6,7 +6,7 @@ Snap a photo of your whiteboard architecture diagram and get production-ready Te
 
 ## Demo
 
-<video src="examples/sample_1/output.mp4" controls width="100%"></video>
+<video src="https://github.com/garganshulgarg/whiteboard-to-infra/raw/refs/heads/main/examples/sample_1/output.mp4" controls width="100%"></video>
 
 ---
 
