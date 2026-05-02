@@ -1,11 +1,23 @@
 import argparse
+import shutil
+import os
 from agents.vision_agent import get_vision_agent
 from agents.terraform_agent import get_terraform_agent
 from core.logger import logger
 
+OUTPUT_DIR = "output_infra"
+
+def cleanup_output_dir():
+    if os.path.exists(OUTPUT_DIR):
+        shutil.rmtree(OUTPUT_DIR)
+        logger.info(f"Cleaned up existing '{OUTPUT_DIR}' directory.")
+
 def main(image_path):
     logger.info(f"Starting Whiteboard-to-Infra pipeline for: {image_path}")
-    
+
+    # 0. Cleanup previous output
+    cleanup_output_dir()
+
     # 1. Initialize Agents
     vision_agent = get_vision_agent()
     tf_agent = get_terraform_agent()
@@ -41,6 +53,7 @@ def main(image_path):
 
     # 3. Terraform Builder Phase
     logger.info("Phase 2: Generating Infrastructure as Code...")
+
     tf_prompt = f"Build Terraform for this topology and save the file: {topology_json}"
     final_result = tf_agent(tf_prompt)
     

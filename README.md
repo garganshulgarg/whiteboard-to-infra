@@ -4,6 +4,12 @@ Snap a photo of your whiteboard architecture diagram and get production-ready Te
 
 ---
 
+## Demo
+
+<video src="examples/sample_1/output.mp4" controls width="100%"></video>
+
+---
+
 ## How It Works
 
 ```mermaid
